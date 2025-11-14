@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quito Cultural - Prototipo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow-x: hidden;
+        }
+
+        .phone-container {
+            width: 100%;
+            max-width: 414px;
+            height: 896px;
+            margin: 20px auto;
+            position: relative;
+            box-shadow: 0 10px 50px rgba(0,0,0,0.3);
+            border-radius: 40px;
+            overflow: hidden;
+            background: white;
+        }
+
+        .background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .content {
+            position: relative;
+            z-index: 2;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, rgba(41, 98, 255, 0.95), rgba(0, 68, 204, 0.95));
+            padding: 50px 20px 20px;
+            color: white;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .header h1 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .header p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        /* Search Bar */
+        .search-container {
+            padding: 15px 20px;
+            background: rgba(255, 255, 255, 0.95);
+        }
+
+        .search-bar {
+            background: #f5f5f5;
+            border-radius: 25px;
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border: 2px solid #e0e0e0;
+        }
+
+        .search-icon {
+            color: #666;
+            font-size: 1.2rem;
+        }
+
+        .search-bar input {
+            border: none;
+            background: none;
+            outline: none;
+            flex: 1;
+            font-size: 1rem;
+            color: #333;
+        }
+
+        .search-bar input::placeholder {
+            color: #999;
+        }
+
+        /* Categories */
+        .categories {
+            padding: 15px 20px;
+            background: rgba(255, 255, 255, 0.95);
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+        }
+
+        .categories::-webkit-scrollbar {
+            display: none;
+        }
+
+        .category-btn {
+            background: white;
+            border: 2px solid #2962ff;
+            color: #2962ff;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            white-space: nowrap;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .category-btn.active {
+            background: #2962ff;
+            color: white;
+        }
+
+        /* Places List */
+        .places-list {
+            flex: 1;
+            padding: 15px 20px;
+            overflow-y: auto;
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        .place-card {
+            background: white;
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            display: flex;
+            gap: 15px;
+            transition: transform 0.2s;
+            cursor: pointer;
+        }
+
+        .place-card:active {
+            transform: scale(0.98);
+        }
+
+        .place-image {
+            width: 80px;
+            height: 80px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            flex-shrink: 0;
+        }
+
+        .place-info {
+            flex: 1;
+        }
+
+        .place-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .place-description {
+            font-size: 0.85rem;
+            color: #666;
+            line-height: 1.4;
+            margin-bottom: 8px;
+        }
+
+        .place-meta {
+            display: flex;
+            gap: 15px;
+            font-size: 0.8rem;
+            color: #999;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            background: white;
+            padding: 10px 20px 20px;
+            display: flex;
+            justify-content: space-around;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            color: #999;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .nav-item.active {
+            color: #2962ff;
+        }
+
+        .nav-icon {
+            font-size: 1.5rem;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 414px) {
+            .phone-container {
+                border-radius: 0;
+                height: 100vh;
+                margin: 0;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .phone-container {
+                max-width: 768px;
+            }
+
+            .header h1 {
+                font-size: 2.2rem;
+            }
+
+            .place-card {
+                flex-direction: row;
+            }
+
+            .place-image {
+                width: 120px;
+                height: 120px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="phone-container">
+        <!-- Background SVG -->
+        <svg class="background" viewBox="0 0 400 800" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+            <defs>
+                <linearGradient id="skyGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" style="stop-color:#87CEEB;stop-opacity:1" />
+                    <stop offset="100%" style="stop-color:#E0F6FF;stop-opacity:1" />
+                </linearGradient>
+                <linearGradient id="mountainGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" style="stop-color:#8B7355;stop-opacity:1" />
+                    <stop offset="100%" style="stop-color:#D2B48C;stop-opacity:1" />
+                </linearGradient>
+            </defs>
+            <rect width="400" height="800" fill="url(#skyGradient)"/>
+            <path d="M 0 400 Q 100 300 200 350 Q 300 320 400 380 L 400 800 L 0 800 Z" fill="url(#mountainGradient)" opacity="0.3"/>
+            <path d="M 0 450 Q 150 320 250 380 Q 350 350 400 420 L 400 800 L 0 800 Z" fill="url(#mountainGradient)" opacity="0.5"/>
+            <rect width="400" height="800" fill="white" opacity="0.15"/>
+        </svg>
+
+        <!-- Content -->
+        <div class="content">
+            <!-- Header -->
+            <div class="header">
+                <h1>Quito Cultural</h1>
+                <p>Descubre la magia del Centro Histórico</p>
+            </div>
+
+            <!-- Search Bar -->
+            <div class="search-container">
+                <div class="search-bar">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" placeholder="Buscar lugares, museos, iglesias...">
+                </div>
+            </div>
+
+            <!-- Categories -->
+            <div class="categories">
+                <button class="category-btn active">🏛️ Todos</button>
+                <button class="category-btn">⛪ Iglesias</button>
+                <button class="category-btn">🎨 Museos</button>
+                <button class="category-btn">🏰 Plazas</button>
+                <button class="category-btn">🍽️ Restaurantes</button>
+            </div>
+
+            <!-- Places List -->
+            <div class="places-list">
+                <div class="place-card">
+                    <div class="place-image">⛪</div>
+                    <div class="place-info">
+                        <div class="place-name">Basílica del Voto Nacional</div>
+                        <div class="place-description">Iglesia neogótica más grande de Ecuador</div>
+                        <div class="place-meta">
+                            <span class="meta-item">📍 2.5 km</span>
+                            <span class="meta-item">⭐ 4.8</span>
+                            <span class="meta-item">🕐 Abierto</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="place-card">
+                    <div class="place-image">🏛️</div>
+                    <div class="place-info">
+                        <div class="place-name">Plaza de la Independencia</div>
+                        <div class="place-description">Centro histórico de Quito</div>
+                        <div class="place-meta">
+                            <span class="meta-item">📍 1.8 km</span>
+                            <span class="meta-item">⭐ 4.9</span>
+                            <span class="meta-item">🕐 24/7</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="place-card">
+                    <div class="place-image">⛪</div>
+                    <div class="place-info">
+                        <div class="place-name">La Compañía de Jesús</div>
+                        <div class="place-description">Iglesia barroca con decoración dorada</div>
+                        <div class="place-meta">
+                            <span class="meta-item">📍 2.1 km</span>
+                            <span class="meta-item">⭐ 5.0</span>
+                            <span class="meta-item">🕐 Abierto</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="place-card">
+                    <div class="place-image">🎨</div>
+                    <div class="place-info">
+                        <div class="place-name">Museo de la Ciudad</div>
+                        <div class="place-description">Historia de Quito desde época prehispánica</div>
+                        <div class="place-meta">
+                            <span class="meta-item">📍 3.2 km</span>
+                            <span class="meta-item">⭐ 4.7</span>
+                            <span class="meta-item">🕐 Cerrado</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="place-card">
+                    <div class="place-image">🏰</div>
+                    <div class="place-info">
+                        <div class="place-name">Plaza San Francisco</div>
+                        <div class="place-description">Una de las plazas más antiguas de Quito</div>
+                        <div class="place-meta">
+                            <span class="meta-item">📍 2.3 km</span>
+                            <span class="meta-item">⭐ 4.8</span>
+                            <span class="meta-item">🕐 24/7</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bottom Navigation -->
+            <div class="bottom-nav">
+                <div class="nav-item active">
+                    <span class="nav-icon">🏠</span>
+                    <span>Inicio</span>
+                </div>
+                <div class="nav-item">
+                    <span class="nav-icon">🗺️</span>
+                    <span>Mapa</span>
+                </div>
+                <div class="nav-item">
+                    <span class="nav-icon">❤️</span>
+                    <span>Favoritos</span>
+                </div>
+                <div class="nav-item">
+                    <span class="nav-icon">⚙️</span>
+                    <span>Ajustes</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
