@@ -1,0 +1,209 @@
+<svg viewBox="0 0 800 700" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <filter id="shadow">
+      <feDropShadow dx="2" dy="2" stdDeviation="3" flood-opacity="0.3"/>
+    </filter>
+    <linearGradient id="warningGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFA726;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#FB8C00;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="successGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#66BB6A;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#43A047;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="infoGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#42A5F5;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1E88E5;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Título -->
+  <text x="400" y="40" font-family="Arial, sans-serif" font-size="24" font-weight="bold" text-anchor="middle" fill="#333">
+    Elementos de Experiencia de Usuario (UX)
+  </text>
+  
+  <!-- Elemento 1: Mensaje de GPS desactivado -->
+  <g>
+    <text x="400" y="80" font-family="Arial, sans-serif" font-size="18" font-weight="bold" text-anchor="middle" fill="#555">
+      1. Mensaje Amigable - GPS Desactivado
+    </text>
+    
+    <!-- Pantalla del celular -->
+    <rect x="200" y="100" width="400" height="180" rx="15" fill="#f5f5f5" filter="url(#shadow)"/>
+    
+    <!-- Área de notificación -->
+    <rect x="220" y="120" width="360" height="140" rx="10" fill="url(#warningGradient)"/>
+    
+    <!-- Icono GPS -->
+    <circle cx="270" cy="170" r="25" fill="white" opacity="0.3"/>
+    <text x="270" y="185" font-family="Arial, sans-serif" font-size="30" text-anchor="middle">📍</text>
+    
+    <!-- Texto del mensaje -->
+    <text x="330" y="160" font-family="Arial, sans-serif" font-size="16" font-weight="bold" text-anchor="start" fill="white">
+      Ubicación desactivada
+    </text>
+    <text x="330" y="185" font-family="Arial, sans-serif" font-size="13" text-anchor="start" fill="white">
+      Activa tu ubicación para encontrar
+    </text>
+    <text x="330" y="205" font-family="Arial, sans-serif" font-size="13" text-anchor="start" fill="white">
+      museos cerca de ti
+    </text>
+    
+    <!-- Botón de acción -->
+    <rect x="330" y="220" width="120" height="30" rx="15" fill="white"/>
+    <text x="390" y="240" font-family="Arial, sans-serif" font-size="13" font-weight="bold" text-anchor="middle" fill="#FB8C00">
+      Activar GPS
+    </text>
+    
+    <!-- Botón cerrar -->
+    <circle cx="570" cy="135" r="12" fill="white" opacity="0.8"/>
+    <text x="570" y="141" font-family="Arial, sans-serif" font-size="16" font-weight="bold" text-anchor="middle" fill="#FB8C00">
+      ×
+    </text>
+  </g>
+  
+  <!-- Elemento 2: Indicador de carga con mensaje -->
+  <g>
+    <text x="400" y="320" font-family="Arial, sans-serif" font-size="18" font-weight="bold" text-anchor="middle" fill="#555">
+      2. Indicador de Carga - Feedback Visual
+    </text>
+    
+    <!-- Pantalla del celular -->
+    <rect x="200" y="340" width="400" height="180" rx="15" fill="#f5f5f5" filter="url(#shadow)"/>
+    
+    <!-- Área de carga -->
+    <rect x="250" y="370" width="300" height="120" rx="10" fill="white" stroke="#e0e0e0" stroke-width="2"/>
+    
+    <!-- Spinner -->
+    <g>
+      <circle cx="340" cy="415" r="25" fill="none" stroke="#e0e0e0" stroke-width="4"/>
+      <path d="M 340 390 A 25 25 0 0 1 365 415" fill="none" stroke="#42A5F5" stroke-width="4" stroke-linecap="round">
+        <animateTransform
+          attributeName="transform"
+          attributeType="XML"
+          type="rotate"
+          from="0 340 415"
+          to="360 340 415"
+          dur="1s"
+          repeatCount="indefinite"/>
+      </path>
+    </g>
+    
+    <!-- Texto de carga -->
+    <text x="400" y="405" font-family="Arial, sans-serif" font-size="15" font-weight="bold" text-anchor="start" fill="#333">
+      Cargando fotos de
+    </text>
+    <text x="400" y="425" font-family="Arial, sans-serif" font-size="15" font-weight="bold" text-anchor="start" fill="#333">
+      la Basílica...
+    </text>
+    
+    <!-- Puntos animados -->
+    <text x="500" y="425" font-family="Arial, sans-serif" font-size="15" font-weight="bold" text-anchor="start" fill="#42A5F5">
+      <tspan>
+        <animate attributeName="opacity" values="0;1;0" dur="1.5s" repeatCount="indefinite"/>
+        .
+      </tspan>
+      <tspan>
+        <animate attributeName="opacity" values="0;1;0" dur="1.5s" begin="0.5s" repeatCount="indefinite"/>
+        .
+      </tspan>
+      <tspan>
+        <animate attributeName="opacity" values="0;1;0" dur="1.5s" begin="1s" repeatCount="indefinite"/>
+        .
+      </tspan>
+    </text>
+    
+    <!-- Barra de progreso -->
+    <rect x="265" y="455" width="270" height="8" rx="4" fill="#e0e0e0"/>
+    <rect x="265" y="455" width="189" height="8" rx="4" fill="url(#infoGradient)">
+      <animate attributeName="width" from="0" to="270" dur="3s" repeatCount="indefinite"/>
+    </rect>
+    
+    <!-- Texto de progreso -->
+    <text x="400" y="480" font-family="Arial, sans-serif" font-size="12" text-anchor="middle" fill="#999">
+      5 de 8 imágenes cargadas
+    </text>
+  </g>
+  
+  <!-- Elemento 3: Mensaje de éxito -->
+  <g>
+    <text x="400" y="560" font-family="Arial, sans-serif" font-size="18" font-weight="bold" text-anchor="middle" fill="#555">
+      3. Confirmación de Acción - Favoritos
+    </text>
+    
+    <!-- Pantalla del celular -->
+    <rect x="250" y="580" width="300" height="100" rx="15" fill="#f5f5f5" filter="url(#shadow)"/>
+    
+    <!-- Toast notification -->
+    <rect x="270" y="600" width="260" height="60" rx="8" fill="url(#successGradient)"/>
+    
+    <!-- Icono de éxito -->
+    <circle cx="305" cy="630" r="18" fill="white" opacity="0.3"/>
+    <text x="305" y="640" font-family="Arial, sans-serif" font-size="24" text-anchor="middle">✓</text>
+    
+    <!-- Texto del mensaje -->
+    <text x="340" y="625" font-family="Arial, sans-serif" font-size="14" font-weight="bold" text-anchor="start" fill="white">
+      ¡Agregado a favoritos!
+    </text>
+    <text x="340" y="645" font-family="Arial, sans-serif" font-size="12" text-anchor="start" fill="white">
+      La Compañía de Jesús
+    </text>
+    
+    <!-- Animación de desvanecimiento -->
+    <rect x="270" y="600" width="260" height="60" rx="8" fill="white" opacity="0">
+      <animate attributeName="opacity" values="0;0;0.5;1" dur="3s" repeatCount="indefinite"/>
+    </rect>
+  </g>
+  
+  <!-- Notas explicativas -->
+  <g>
+    <rect x="30" y="520" width="150" height="160" rx="8" fill="#E8F5E9" stroke="#66BB6A" stroke-width="2"/>
+    <text x="105" y="545" font-family="Arial, sans-serif" font-size="14" font-weight="bold" text-anchor="middle" fill="#2E7D32">
+      💡 Buenas Prácticas
+    </text>
+    <text x="45" y="565" font-family="Arial, sans-serif" font-size="11" text-anchor="start" fill="#555">
+      ✓ Mensajes claros
+    </text>
+    <text x="45" y="585" font-family="Arial, sans-serif" font-size="11" text-anchor="start" fill="#555">
+      ✓ Lenguaje amigable
+    </text>
+    <text x="45" y="605" font-family="Arial, sans-serif" font-size="11" text-anchor="start" fill="#555">
+      ✓ Indicar progreso
+    </text>
+    <text x="45" y="625" font-family="Arial, sans-serif" font-size="11" text-anchor="start" fill="#555">
+      ✓ Acciones claras
+    </text>
+    <text x="45" y="645" font-family="Arial, sans-serif" font-size="11" text-anchor="start" fill="#555">
+      ✓ Feedback inmediato
+    </text>
+    <text x="45" y="665" font-family="Arial, sans-serif" font-size="11" text-anchor="start" fill="#555">
+      ✓ No bloquear UI
+    </text>
+  </g>
+  
+  <!-- Principios UX -->
+  <g>
+    <rect x="620" y="520" width="150" height="160" rx="8" fill="#FFF3E0" stroke="#FFA726" stroke-width="2"/>
+    <text x="695" y="545" font-family="Arial, sans-serif" font-size="14" font-weight="bold" text-anchor="middle" fill="#E65100">
+      ⚠️ Evitar
+    </text>
+    <text x="635" y="565" font-family="Arial, sans-serif" font-size="11" text-anchor="start" fill="#555">
+      ✗ Mensajes técnicos
+    </text>
+    <text x="635" y="585" font-family="Arial, sans-serif" font-size="11" text-anchor="start" fill="#555">
+      ✗ Errores sin solución
+    </text>
+    <text x="635" y="605" font-family="Arial, sans-serif" font-size="11" text-anchor="start" fill="#555">
+      ✗ Bloquear pantalla
+    </text>
+    <text x="635" y="625" font-family="Arial, sans-serif" font-size="11" text-anchor="start" fill="#555">
+      ✗ Sin retroalimentación
+    </text>
+    <text x="635" y="645" font-family="Arial, sans-serif" font-size="11" text-anchor="start" fill="#555">
+      ✗ Tiempos indefinidos
+    </text>
+    <text x="635" y="665" font-family="Arial, sans-serif" font-size="11" text-anchor="start" fill="#555">
+      ✗ Lenguaje negativo
+    </text>
+  </g>
+</svg>
