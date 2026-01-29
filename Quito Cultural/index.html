@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Quito Cultural</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/views.css">
+</head>
+<body>
+
+<div class="mobile-frame">
+    <header>
+        <h1>Quito Cultural</h1>
+        <p>Ruta de Iglesias y Museos</p>
+    </header>
+
+    <div id="home-view" class="view active">
+        <div class="video-section">
+            <h3 class="section-title-sm">Conoce tu Patrimonio</h3>
+            <div class="video-container">
+                <video controls poster="https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Quito_Ecuador_Panecillo.jpg/640px-Quito_Ecuador_Panecillo.jpg">
+                    <source src="assets/video_expo.mp4" type="video/mp4">
+                    Tu navegador no soporta video.
+                </video>
+            </div>
+        </div>
+        <div class="category-scroll">
+            <button class="cat-chip active" onclick="filterSites('todos', this)">Todos</button>
+            <button class="cat-chip" onclick="filterSites('Iglesia', this)">Iglesias</button>
+            <button class="cat-chip" onclick="filterSites('Museo', this)">Museos</button>
+            <button class="cat-chip" onclick="filterSites('Plaza', this)">Plazas</button>
+        </div>
+        <div id="sites-container" class="grid-container"></div>
+    </div>
+
+    <div id="explore-view" class="view">
+        <div class="search-bar">
+            <span class="material-icons">search</span>
+            <input type="text" id="searchInput" placeholder="Buscar sitio...">
+        </div>
+        <div class="map-section">
+            <h3 class="section-title-sm">Mapa del Centro Histórico</h3>
+            <div id="map"></div>
+            <p class="map-hint"><small>Toca un marcador para ver detalles</small></p>
+        </div>
+        <div id="explore-results" class="list-container">
+            <p class="empty-state">Resultados...</p>
+        </div>
+    </div>
+
+    <div id="achievements-view" class="view">
+        <div class="stats-card">
+            <h2 id="total-points">0 XP</h2>
+            <p>Nivel: Explorador Novato</p>
+        </div>
+        <h3 class="section-title">Mis Medallas</h3>
+        <ul id="achievements-list" class="achievements-list"></ul>
+    </div>
+
+    <div id="profile-view" class="view">
+        <div class="profile-header">
+            <div class="avatar-circle"><span class="material-icons">person</span></div>
+            <h2>Turista Cultural</h2>
+            <p>Estudiante / Visitante</p>
+        </div>
+        <div class="profile-card">
+            <div class="progress-bar-container">
+                <div class="progress-info">
+                    <span>Progreso de la Ruta</span>
+                    <span id="progress-text">0%</span>
+                </div>
+                <div class="progress-track"><div id="progress-fill" class="progress-fill"></div></div>
+            </div>
+            <button class="btn-secondary" onclick="resetProgress()">Reiniciar Progreso</button>
+        </div>
+    </div>
+
+    <div id="detail-view" class="detail-overlay">
+        <div class="detail-header-img" id="detail-image">
+            <button class="back-btn" onclick="closeDetail()">
+                <span class="material-icons">arrow_back</span>
+            </button>
+        </div>
+        <div class="detail-content">
+            <div class="detail-badges" id="detail-badges"></div>
+            <h2 id="detail-title">Título</h2>
+            <div class="detail-address">
+                <span class="material-icons">location_on</span>
+                <span id="detail-address-text">Dirección...</span>
+            </div>
+
+            <div id="audio-container" style="margin-top: 15px; display: none;">
+                <p style="font-size: 0.8rem; color: #666; margin-bottom: 5px;">
+                    <span class="material-icons" style="font-size: 1rem; vertical-align: middle;">headphones</span> 
+                    Escuchar Audioguía
+                </p>
+                <audio id="detail-audio" controls style="width: 100%; border-radius: 20px; background: #f1f3f4;"></audio>
+            </div>
+
+            <p id="detail-desc">Descripción</p>
+            <div class="action-area">
+                <button class="btn-primary" id="btn-check-in">
+                    <span class="material-icons">where_to_vote</span>
+                    Registrar Visita (+50 XP)
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="achievement-popup" class="achievement-popup">
+        <div class="popup-icon"><span class="material-icons">emoji_events</span></div>
+        <div class="popup-content">
+            <h4>¡Logro Desbloqueado!</h4>
+            <p id="popup-site-name">Sitio</p>
+        </div>
+        <div class="popup-xp" id="popup-site-xp">+ XP</div>
+    </div>
+
+    <div id="confirmation-modal" class="modal-overlay">
+        <div class="modal-box">
+            <span class="material-icons" style="font-size: 3rem; color: #d32f2f; margin-bottom: 10px;">warning</span>
+            <h3>¿Reiniciar Progreso?</h3>
+            <p>Se borrarán tus medallas.</p>
+            <div class="modal-buttons">
+                <button class="btn-cancel" onclick="closeModal()">Cancelar</button>
+                <button class="btn-confirm" onclick="confirmResetAction()">Sí, Reiniciar</button>
+            </div>
+        </div>
+    </div>
+
+    <nav class="bottom-nav">
+        <button class="nav-item active" onclick="navigateTo('home', this)"><span class="material-icons">home</span>Inicio</button>
+        <button class="nav-item" onclick="navigateTo('explore', this)"><span class="material-icons">explore</span>Explorar</button>
+        <button class="nav-item" onclick="navigateTo('achievements', this)"><span class="material-icons">emoji_events</span>Logros</button>
+        <button class="nav-item" onclick="navigateTo('profile', this)"><span class="material-icons">person</span>Perfil</button>
+    </nav>
+
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="js/data.js"></script>
+<script src="js/map.js"></script>
+<script src="js/achievements.js"></script>
+<script src="js/navigation.js"></script>
+<script src="js/home.js"></script>
+<script src="js/explore.js"></script>
+<script src="js/profile.js"></script>
+
+</body>
+</html>
